@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Products;
-import model.Users;
-import repository.ProductsBO;
+import model.SanPham;
+import model.TaiKhoan;
+import repository.SanPhamBO;
 
 /**
  * Servlet implementation class AdminEditProduct
@@ -36,8 +36,8 @@ public class AdminEditProduct extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		int id = Integer.parseInt(request.getParameter("id"));
-		ProductsBO prdBO = new ProductsBO();
-		Products pr = prdBO.findProduct(id);
+		SanPhamBO prdBO = new SanPhamBO();
+		SanPham pr = prdBO.getProductsByID(id);
 		request.setAttribute("id", pr.getId());
 		request.getRequestDispatcher("./admin/incAdmin/editProductAdmin.jsp").forward(request, response);
 	}
@@ -59,13 +59,14 @@ public class AdminEditProduct extends HttpServlet {
 		String tenanh = request.getParameter("anhchinh");
 		int soLuong = Integer.parseInt(request.getParameter("soluong"));
 		int loaiSp =  Integer.parseInt(request.getParameter("id_loaisp"));
+		int id_nhaCungCap =  Integer.parseInt(request.getParameter("id_nhaCungCap"));
 		
-		ProductsBO prdBO = new ProductsBO();
-		Products pr = new Products(id,loaiSp, tenSp, mota, tenanh, giaGoc, khuyenmai,  1, soLuong);
-		Users admin = (Users) request.getSession().getAttribute("admin");
+		SanPhamBO prdBO = new SanPhamBO();
+		SanPham pr = new SanPham(id, tenSp, mota, giaGoc, tenanh,soLuong, loaiSp,  id_nhaCungCap, khuyenmai );
+		TaiKhoan admin = (TaiKhoan) request.getSession().getAttribute("admin");
 		if (admin != null) {
 			prdBO.editProduct(pr) ;
-			ArrayList<Products> listProduct = prdBO.getListProducts();
+			ArrayList<SanPham> listProduct = prdBO.getListProducts();
 			request.setAttribute("listProducts", listProduct);
 		}
 		request.getRequestDispatcher("./admin/viewsAdmin/managerProducts.jsp").forward(request, response);

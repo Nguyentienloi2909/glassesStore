@@ -1,5 +1,5 @@
-<%@page import="model.Category"%>
-<%@page import="model.Products"%>
+<%@page import="model.LoaiSanPham"%>
+<%@page import="model.SanPham"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>

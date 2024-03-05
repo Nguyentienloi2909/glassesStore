@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Products;
-import model.ProductsDetail;
-import model.Users;
-import repository.ProductDetailBO;
-import repository.ProductsBO;
+import model.SanPham;
+import model.SanPham;
+import model.TaiKhoan;
+import repository.GioHang_SanPhamBO;
+import repository.SanPhamBO;
 
 
 /**
@@ -39,10 +39,10 @@ public class CartServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		ProductDetailBO prd = new ProductDetailBO();
-		Users user = (Users)request.getSession().getAttribute("user");
+		GioHang_SanPhamBO prd = new GioHang_SanPhamBO();
+		TaiKhoan user = (TaiKhoan)request.getSession().getAttribute("user");
 		if(user !=null) {
-			ArrayList<Products> listPr = prd.getProductDetailByIdUser(user.getId());
+			ArrayList<SanPham> listPr = prd.getSanPhamTrongGioHang(user.getId());
 			request.setAttribute("listCart", listPr);
 		}
 		

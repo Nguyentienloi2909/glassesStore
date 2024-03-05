@@ -1,5 +1,5 @@
-<%@page import="model.Category"%>
-<%@page import="model.Products"%>
+<%@page import="model.LoaiSanPham"%>
+<%@page import="model.SanPham"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -44,7 +44,7 @@
 												width="100" height="100" alt="Cotton T-shirt">
 										</div>
 										<div class="col-md-3 col-lg-3 col-xl-3">
-											<p class="lead fw-normal mb-2">${user.tenHienThi }</p>
+											<p class="lead fw-normal mb-2">${user.tenTaiKhoan }</p>
 											<p>
 												<span class="text-muted">phân quyền: </span>${user.phanQuyen }
 												<br> <span class="text-muted">email: </span>${user.email}

@@ -22,10 +22,7 @@ width:80%;
 	
 	<form style="width: 30%; height:30%" action="checkEmail" method="post">
 		<div class="mb-3">
-		    <input type="hidden" class="form-control"   name="userName"  value="${userName}">
-		  </div>
-		  <div class="mb-3">
-		    <input type="hidden" class="form-control"   name="fullName" value="${fullName}">
+		    <input type="hidden" class="form-control"   name="tenTaiKhoan"  value="${tenTaiKhoan}">
 		  </div>
 		  <div class="mb-3">
 		    <input type="hidden" class="form-control"   name="email" value="${email}">

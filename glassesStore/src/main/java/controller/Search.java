@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.ProductsDAO;
-import model.Products;
-import model.Users;
-import repository.ProductsBO;
+import dao.SanPhamDAO;
+import model.SanPham;
+import model.TaiKhoan;
+import repository.SanPhamBO;
 
 /**
  * Servlet implementation class Search
@@ -37,13 +37,13 @@ public class Search extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		Users admin = (Users) request.getSession().getAttribute("admin");
+		TaiKhoan admin = (TaiKhoan) request.getSession().getAttribute("admin");
 		
 		if (admin != null ) {
 			String search = request.getParameter("search");
-			ProductsBO prDAO = new ProductsBO();
-			ArrayList<Products> listProduct = prDAO.getProductsByName(search);
-			for(Products pr : listProduct) {
+			SanPhamBO prDAO = new SanPhamBO();
+			ArrayList<SanPham> listProduct = prDAO.getProductsByName(search);
+			for(SanPham pr : listProduct) {
 				System.out.println(pr.getId());
 			}
 			
@@ -51,8 +51,8 @@ public class Search extends HttpServlet {
 			request.getRequestDispatcher("./admin/viewsAdmin/managerProducts.jsp").forward(request, response);
 		}else {
 			String search = request.getParameter("search");
-			ProductsBO prDAO = new ProductsBO();
-			ArrayList<Products> listProduct = prDAO.getProductsByName(search);
+			SanPhamBO prDAO = new SanPhamBO();
+			ArrayList<SanPham> listProduct = prDAO.getProductsByName(search);
 			request.setAttribute("lstProducts", listProduct);
 		}
 

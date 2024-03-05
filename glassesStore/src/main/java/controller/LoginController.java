@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.Users;
-import repository.UsersBO;
+import model.TaiKhoan;
+import repository.TaiKhoanBO;
 
 /**
  * Servlet implementation class UsersLoginServlet
@@ -48,13 +48,13 @@ public class LoginController extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		String user_name = request.getParameter("user-name");
 		String user_pass = request.getParameter("user-password");
-		UsersBO u = new UsersBO();
+		TaiKhoanBO u = new TaiKhoanBO();
 		HttpSession session = request.getSession();
-		Users us = u.checkLogin(user_name, user_pass);
+		TaiKhoan us = u.checkLogin(user_name, user_pass);
 		if (us != null) {
-			session.setAttribute("user", us);
 			// phân quyền để chuyển trang
 			if (us.getPhanQuyen().equals("0")) {
+				session.setAttribute("user", us);
 				response.sendRedirect("./home");
 			}
 			if (us.getPhanQuyen().equals("1")) {

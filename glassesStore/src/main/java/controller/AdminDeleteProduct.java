@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Products;
-import model.Users;
-import repository.ProductDetailBO;
-import repository.ProductsBO;
-import repository.UsersBO;
+import model.SanPham;
+import model.TaiKhoan;
+import repository.GioHang_SanPhamBO;
+import repository.SanPhamBO;
+import repository.TaiKhoanBO;
 
 /**
  * Servlet implementation class AdminDeleteProduct
@@ -40,11 +40,11 @@ public class AdminDeleteProduct extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		
 		int id = Integer.parseInt(request.getParameter("id"));		
-		Users admin = (Users) request.getSession().getAttribute("admin");
-		ProductsBO prdao = new ProductsBO();
+		TaiKhoan admin = (TaiKhoan) request.getSession().getAttribute("admin");
+		SanPhamBO prdao = new SanPhamBO();
 		if (admin != null) {
 			prdao.deleteProduct(id);
-			ArrayList<Products> listProduct = prdao.getListProducts();
+			ArrayList<SanPham> listProduct = prdao.getListProducts();
 			request.setAttribute("listProducts", listProduct);
 			
 		}

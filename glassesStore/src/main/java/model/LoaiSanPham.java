@@ -5,14 +5,14 @@ package model;
  * @author MyPC
  *
  */
-public class Category {
+public class LoaiSanPham {
 	private long id;
 	private String tenLoaiSanPham;
 
 	/**
 	 * 
 	 */
-	public Category() {
+	public LoaiSanPham() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -21,7 +21,7 @@ public class Category {
 	 * @param id
 	 * @param tenLoaiSanPham
 	 */
-	public Category(long id, String tenLoaiSanPham) {
+	public LoaiSanPham(long id, String tenLoaiSanPham) {
 		super();
 		this.id = id;
 		this.tenLoaiSanPham = tenLoaiSanPham;

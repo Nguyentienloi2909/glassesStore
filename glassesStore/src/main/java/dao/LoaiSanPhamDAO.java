@@ -5,17 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import model.Category;
+import model.LoaiSanPham;
 
 /**
  * @author MyPC
  *
  */
-public class CategoryDAO {
+public class LoaiSanPhamDAO {
 	// hàm get hiển thị ra LOẠI sản phẩm giao diện Trang chủ và Quản lý
-	public ArrayList<Category> getListCategory() {
+	public ArrayList<LoaiSanPham> getListCategory() {
 		DBConnect cs = new DBConnect();
-		ArrayList<Category> lst = new ArrayList<Category>();
+		ArrayList<LoaiSanPham> lst = new ArrayList<LoaiSanPham>();
 		try {
 			cs.KetNoi();
 			String sql = " SELECT * FROM web.loaisanpham";
@@ -23,7 +23,7 @@ public class CategoryDAO {
 			ResultSet rs = cmd.executeQuery();
 			while (rs.next()) {
 				// tạo 1 đối tượng gán giá trị
-				Category category = new Category();
+				LoaiSanPham category = new LoaiSanPham();
 				category.setId(rs.getLong("id"));
 				category.setTenLoaiSanPham(rs.getString("tenloai"));
 				// Thêm vào danh sách
@@ -44,11 +44,11 @@ public class CategoryDAO {
 	/* Phần quản lý admin */
 
 	// thêm mới 1 loại sản phẩm
-	public boolean addCategory(Category ca) {
+	public boolean addCategory(LoaiSanPham ca) {
 		DBConnect cs = new DBConnect();
 		try {
 			cs.KetNoi();
-			String sql = "INSERT INTO loaisanpham VALUES(?)";
+			String sql = "INSERT INTO web.loaisanpham(tenloai) VALUES(?)";
 			PreparedStatement cmd = cs.cn.prepareStatement(sql);
 			cmd.setString(1, ca.getTenLoaiSanPham());
 			cmd.executeQuery();
@@ -62,9 +62,9 @@ public class CategoryDAO {
 	}
 
 	// hàm get hiển thị ra loại sản phẩm theo mã id-
-	public Category getCategoryByID(long id) {
+	public LoaiSanPham getCategoryByID(long id) {
 		DBConnect cs = new DBConnect();
-		Category lst = new Category();
+		LoaiSanPham lst = new LoaiSanPham();
 		try {
 			cs.KetNoi();
 			String sql = " SELECT * FROM LOAISANPHAM WHERE id=?";
@@ -74,7 +74,7 @@ public class CategoryDAO {
 			while (rs.next()) {				
 				long id_loaiSanPham = rs.getLong("id");
 				String tenLoaiSanPham = rs.getString("tenloai");			
-				lst = new Category(id_loaiSanPham, tenLoaiSanPham);
+				lst = new LoaiSanPham(id_loaiSanPham, tenLoaiSanPham);
 			}
 			rs.close();
 			cs.cn.close();
@@ -86,7 +86,7 @@ public class CategoryDAO {
 	}	
 
 	// sửa loại sản phẩm
-	public boolean editCategory(Category ca) {
+	public boolean editCategory(LoaiSanPham ca) {
 		DBConnect cs = new DBConnect();
 		try {
 			cs.KetNoi();
@@ -119,6 +119,31 @@ public class CategoryDAO {
 			e.printStackTrace();
 		}
 		return kq;
+	}
+	
+	public int getIdLoaiSPByTenSP(String tenLoai) {
+		DBConnect cs = new DBConnect();
+		try {
+			cs.KetNoi();
+			String sql = " SELECT id FROM web.loaisanpham where tenloai=?";
+	            try (PreparedStatement cmd = cs.cn.prepareStatement(sql)) {
+	            	cmd.setString(1, tenLoai);
+	                try (ResultSet resultSet = cmd.executeQuery()) {
+	                    if (resultSet.next()) {
+	                        return resultSet.getInt("id");
+	                    }
+	                }
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return -1;
+	}
+	
+	public static void main(String[] args) {
+		LoaiSanPhamDAO lsp = new LoaiSanPhamDAO();
+		int a = lsp.getIdLoaiSPByTenSP("amo");
+		System.out.println(a);
 	}
 
 }

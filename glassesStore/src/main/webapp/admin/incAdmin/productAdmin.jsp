@@ -1,5 +1,5 @@
-<%@page import="model.Category"%>
-<%@page import="model.Products"%>
+<%@page import="model.LoaiSanPham"%>
+<%@page import="model.SanPham"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -36,7 +36,7 @@
 										data-mdb-ripple-init>search</button>
 								</div>
 							</form>
-							<a type="button" href="./admin/incAdmin/addProductAdmin.jsp" class="btn btn-outline-primary bg-success text-light" 
+							<a type="button" href="/glassesStore/AdminAddProduct" class="btn btn-outline-primary bg-success text-light" 
 										data-mdb-ripple-init>+Thêm</a>
 						</div>
 					<c:if test="${listProducts != null}">
@@ -61,7 +61,7 @@
 										</div>
 
 										<div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-											<a href="AdminEditProduct?id=${product.id}"> <i
+											<a href="/glassesStore/AdminAddProduct?id=${product.id}"> <i
 												class="fas fa-cog fa-lg"></i>
 											</a>
 

@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Email;
-import model.Users;
-import repository.UsersBO;
+import model.TaiKhoan;
+import repository.TaiKhoanBO;
 
 /**
  * Servlet implementation class checkEmail
@@ -43,36 +43,39 @@ public class checkEmail extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		String userName = request.getParameter("userName");
-		String fullName = request.getParameter("fullName");
+		String tenTaiKhoan = request.getParameter("tenTaiKhoan");
+		String hinhAnh = request.getParameter("hinhAnh");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String chuoiTest = request.getParameter("chuoiTest");
 		String otp = request.getParameter("maOTP");
 		
-		Users user = new Users(fullName, "", userName, password, "0", email);
+		TaiKhoan user = new TaiKhoan(tenTaiKhoan ,email, password, "0", hinhAnh, "", "" );
 		HttpSession session = request.getSession();
-		UsersBO s = new UsersBO();
+		TaiKhoanBO s = new TaiKhoanBO();
+		
+		String url = "";
 		if(!otp.equals(chuoiTest)) {
 			
-			request.setAttribute("userName", userName);
-			request.setAttribute("fullName", fullName);
+			request.setAttribute("tenTaiKhoan", tenTaiKhoan);
+			request.setAttribute("hinhAnh", hinhAnh);
 			request.setAttribute("email", email);
 			request.setAttribute("alert", "Mã OTP sai vui lòng đăng ký lại");
-			request.getRequestDispatcher("./views/DangKy.jsp").forward(request, response);
+			url = "./views/DangKy.jsp";
 			
 		}else {
 			try {
 				s.addAccount(user);
-				Users user3 = s.getUsersByName(user.getTenTaiKhoan());
+				TaiKhoan user3 = s.getUsersByName(user.getTenTaiKhoan());
 				session.setAttribute("user", user3);
+				url = "./home";
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
-		request.getRequestDispatcher("./home").include(request, response);
+		request.getRequestDispatcher(url).include(request, response);
 
 	}
 

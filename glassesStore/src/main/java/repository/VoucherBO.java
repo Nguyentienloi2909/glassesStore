@@ -12,4 +12,8 @@ public class VoucherBO {
 	public Voucher getVoucherByTenvoucher(String tenvoucher) {
 		return s.getVoucherByTenvoucher(tenvoucher);
 	}
+	
+	public boolean addVoucher(Voucher pr) {
+		return s.addVoucher(pr);
+	}
 }

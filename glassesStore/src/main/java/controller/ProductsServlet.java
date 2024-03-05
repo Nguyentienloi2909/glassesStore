@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Products;
-import model.ProductsDetail;
-import model.Users;
-import repository.CategoryBO;
-import repository.ProductDetailBO;
-import repository.ProductsBO;
+import model.GioHang_SanPham;
+import model.SanPham;
+import model.SanPham;
+import model.TaiKhoan;
+import repository.LoaiSanPhamBO;
+import repository.GioHang_SanPhamBO;
+import repository.SanPhamBO;
 
 /**
  * Servlet implementation class HomeProductsServlet
@@ -39,14 +40,14 @@ public class ProductsServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		ProductsBO p = new ProductsBO();
-		CategoryBO c = new CategoryBO();
+		SanPhamBO p = new SanPhamBO();
+		LoaiSanPhamBO c = new LoaiSanPhamBO();
 		
 		String idLoaiSp = request.getParameter("id_category"); // mĂ£ loáº¡i sáº£npháº©m
 		String search = request.getParameter("search"); // tĂ¬m kiáº¿m theo tĂªn ngÆ°á»�i dĂ¹ng nháº­p 
 		String key = request.getParameter("key");
 		 
-		ArrayList<Products> lstP=null;
+		ArrayList<SanPham> lstP=null;
 		lstP = p.getListProducts();
 		
 		  if (idLoaiSp != null) { 
@@ -72,9 +73,9 @@ public class ProductsServlet extends HttpServlet {
 	}
 	
 	public void addProductToCart(HttpServletRequest request) { 
-		ProductsBO sp = new ProductsBO();
-		ProductDetailBO prd = new ProductDetailBO();
-		Users user = (Users)request.getSession().getAttribute("user");
+		SanPhamBO sp = new SanPhamBO();
+		GioHang_SanPhamBO prd = new GioHang_SanPhamBO();
+		TaiKhoan user = (TaiKhoan)request.getSession().getAttribute("user");
 		int id_product;
 		try {
 			id_product = Integer.parseInt(request.getParameter("id_product"));
@@ -86,20 +87,20 @@ public class ProductsServlet extends HttpServlet {
 		
 		
 		if(id_product>0  && user!= null) {
-			ProductsDetail productsDetail = new ProductsDetail(id_product, user.getId(), 1);
-			ArrayList<ProductsDetail> listCart = prd.getProductDetail(productsDetail);
+			GioHang_SanPham GioHang_SanPham = new GioHang_SanPham(id_product, user.getId(), 1, 0);
+			ArrayList<GioHang_SanPham> listCart = prd.getGioHangSanPham(GioHang_SanPham);
 			boolean isProductInCart = false;
 			
 			
-			for(ProductsDetail pro:listCart) {
-				if(pro.getId_sanPham()==id_product) {
+			for(GioHang_SanPham pro:listCart) {
+				if(pro.getId_SanPham()== id_product) {
 					pro.setSoLuong(pro.getSoLuong()+1);
-					prd.editSoLuongDetailProducts(pro);
+					prd.editSoLuong(GioHang_SanPham);
 					isProductInCart=true;
 				}
 			}
 			if(!isProductInCart) {
-				prd.addDetailProducts(productsDetail);
+				prd.addGioHangSanPham(GioHang_SanPham);
 				
 			}
 

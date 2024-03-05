@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Email;
-import model.Users;
-import repository.UsersBO;
+import model.TaiKhoan;
+import repository.TaiKhoanBO;
 
 /**
  * Servlet implementation class UsersRegisterServlet
@@ -48,10 +48,9 @@ public class Register extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		UsersBO s = new UsersBO();
+		TaiKhoanBO s = new TaiKhoanBO();
 		
-		String userName = request.getParameter("user-name");
-		String fullName = request.getParameter("tenHienThi");
+		String tenTaiKhoan = request.getParameter("tenTaiKhoan");
 		String email = request.getParameter("user-email");
 		String password = request.getParameter("password");
 		String passwordRepeat = request.getParameter("passwordRepeat");
@@ -61,9 +60,9 @@ public class Register extends HttpServlet {
 		String messUserName ="";
 		String messEmail ="";
 		String messPasswordRepeat ="";
-		Users user = new Users(fullName, "", userName, password, "0", email);
+		TaiKhoan user = new TaiKhoan(tenTaiKhoan,email, password, "0", "", "", "" );
 		HttpSession session = request.getSession();
-		if(s.checkAccountUserName(userName)) {
+		if(s.checkAccountTenTaiKhoan(tenTaiKhoan)) {
 			messUserName += "tên đăng nhập đã tồn tại";
 			
 		}
@@ -78,8 +77,7 @@ public class Register extends HttpServlet {
 		
 		
 		if (messUserName.length() > 0 || messPasswordRepeat.length()>0 || messEmail.length() > 0) {
-			request.setAttribute("userName", userName);
-			request.setAttribute("fullName", fullName);
+			request.setAttribute("tenTaiKhoan", tenTaiKhoan);
 			request.setAttribute("email", email);
 			request.setAttribute("messUserName", messUserName);
 			request.setAttribute("messEmail", messEmail);
@@ -89,8 +87,7 @@ public class Register extends HttpServlet {
 			String maOTP = Email.generateRandomString(6);
 			Email.sendEmail(email, "MÃ OTP CỦA BẠN", maOTP);
 			request.setAttribute("chuoiTest", maOTP);
-			request.setAttribute("userName", userName);
-			request.setAttribute("fullName", fullName);
+			request.setAttribute("tenTaiKhoan", tenTaiKhoan);
 			request.setAttribute("email", email);
 			request.setAttribute("password", password);
 			

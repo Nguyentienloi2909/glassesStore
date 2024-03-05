@@ -1,4 +1,4 @@
-<%@page import="model.Users"%>
+<%@page import="model.TaiKhoan"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -58,7 +58,7 @@
 								        <li><a class="dropdown-item" href="./views/DangNhap.jsp">Đăng nhập </a></li>
 								    </c:when>
 								    <c:otherwise>
-								        <li><a class="dropdown-item"><c:out value="${sessionScope.user.tenHienThi}" /></a></li>
+								        <li><a class="dropdown-item"><c:out value="${sessionScope.user.tenTaiKhoan}" /></a></li>
 								        <li><a class="dropdown-item" href="logout">Đăng Xuất </a></li>
 								    </c:otherwise>
 								</c:choose>

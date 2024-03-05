@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.Products"%>
+<%@page import="model.SanPham"%>
 <%@page import="model.Voucher"%>
 <!DOCTYPE html>
 <html>
@@ -333,29 +333,29 @@
 			
 			<div class="column text-left">
 				<%
-					long tongTienHang = 0;
-					long thueVanChuyen = 3000;
-					long Vat = 0;
-					long giamGia = 0;
-					long tongThanhToan = 0;
-					long tienVoucher = 0;
-					ArrayList<Products> lstPr = (ArrayList<Products>) request.getAttribute("listCart");
-					Voucher vouch = (Voucher)request.getAttribute("vcher");
-					
-					if (vouch != null){
-						tienVoucher = vouch.getKhuyenmai();
-					}
-					
-					if(lstPr != null){
-						for (Products pr : lstPr){
-							giamGia+=pr.getKhuyenMai()*pr.getGiaGoc()*pr.getSoLuong()/100;
-							tongTienHang+= pr.getGiaGoc()*pr.getSoLuong();
-						}
-						Vat = tongTienHang*2/100;
-						tongThanhToan = tongTienHang + thueVanChuyen + Vat - giamGia - tienVoucher;
-					}
-					
-					
+							long tongTienHang = 0;
+							long thueVanChuyen = 3000;
+							long Vat = 0;
+							long giamGia = 0;
+							long tongThanhToan = 0;
+							long tienVoucher = 0;
+							long id_voucher = 0;
+							ArrayList<SanPham> lstPr = (ArrayList<SanPham>) request.getAttribute("listCart");
+							Voucher vouch = (Voucher)request.getAttribute("vcher");
+							
+							if (vouch != null){
+								tienVoucher = vouch.getKhuyenmai();
+								id_voucher = vouch.getIdvoucher();
+							}
+							
+							if(lstPr != null){
+								for (SanPham pr : lstPr){
+									giamGia+=pr.getKhuyenMai()*pr.getGiaGoc()*pr.getSoLuong()/100;
+									tongTienHang+= pr.getGiaGoc()*pr.getSoLuong();
+								}
+								Vat = tongTienHang*2/100;
+								tongThanhToan = tongTienHang + thueVanChuyen + Vat - giamGia - tienVoucher;
+							}
 				%>
 				<span class="text-md fw-bold">Tổng Tiền Hàng: <%= tongTienHang%>$</span><br>
 				<span class="text-md fw-bold">Thuế Vận Chuyển: <%= thueVanChuyen%>$</span><br>
@@ -371,7 +371,7 @@
 					class="icon-arrow-left"></i>&nbsp;Back to Shopping</a>
 			</div>
 			<div class="column">
-					<a class="btn btn-success bg-success" href="checkout?tong=<%= tongThanhToan%>">Checkout</a>
+					<a class="btn btn-success bg-success" href="checkout?tong=<%= tongThanhToan%>&id_voucher=<%= id_voucher%>">Checkout</a>
 			</div>
 		</div>
 	</div>

@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Products;
-import model.Users;
+import model.SanPham;
+import model.TaiKhoan;
 import model.Voucher;
-import repository.ProductDetailBO;
+import repository.GioHang_SanPhamBO;
 import repository.VoucherBO;
 
 /**
@@ -47,9 +47,9 @@ public class CheckVoucher extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		String voucher  = request.getParameter("voucher");
-		Users user = (Users) request.getSession().getAttribute("user");
+		TaiKhoan user = (TaiKhoan) request.getSession().getAttribute("user");
 		VoucherBO voucherBO = new VoucherBO();
-		ProductDetailBO prd = new ProductDetailBO();
+		GioHang_SanPhamBO prd = new GioHang_SanPhamBO();
 		
 	
 		if (user != null) {	
@@ -61,7 +61,7 @@ public class CheckVoucher extends HttpServlet {
 				request.setAttribute("messVcher", "mã voucher không đúng");
 			}
 			
-			ArrayList<Products> listPr = prd.getProductDetailByIdUser(user.getId());
+			ArrayList<SanPham> listPr = prd.getSanPhamTrongGioHang(user.getId());
 			request.setAttribute("listCart", listPr);	
 		}
 		request.getRequestDispatcher("./views/GioHang.jsp").forward(request, response);	

@@ -35,74 +35,108 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
 </style>
 </head>
 <body>
-
-	<section class="">
-		<div class="mask d-flex align-items-center h-100 gradient-custom-3">
-			<div class="container h-100">
+		<!-- <div class="mask d-flex align-items-center h-100 gradient-custom-3"> -->
+			<div class="container mt-5">
 				<div
-					class="row d-flex justify-content-center align-items-center h-100">
-					<div class="col-12 col-md-9 col-lg-7 col-xl-6">
-						<div class="card" style="border-radius: 15px;">
+					class="row justify-content-center align-items-center mt-5">
+					<div class="col-lg-8">
+						<div class="card" style="border-radius: 15px; box-shadow:  20px 20px 60px #a99494,-20px -20px 60px #e5c8c8;">
 							<div class="card-body p-5">
 								<a href="/glassesStore/adminproduct"><i
 									class="fa fa-arrow-left" aria-hidden="true"></i></a>
-								<h2 class="text-uppercase text-center mb-5">Create an
-									Products</h2>
+								<h2 class="text-uppercase mb-4 mt-4">Thông Tin Sản Phẩm</h2>
 
 								<form action="/glassesStore/AdminAddProduct" method="post">
+									<div class="form-outline">
+										<div class="row">
+											<div class="col">
+												<label class="form-label" for="form3Example1cg">tên
+													sản phẩm</label> 
+												<input type="text" id="form3Example1cg" name="tensanpham"
+													 class="form-control form-control-lg" />
+												<span style="color:red">${eTensp}</span>
+											</div>
+											
+											<div class="col">
+												<label class="form-label" for="form3Example4cg">Ảnh minh họa</label>
+												<input type="text" id="form3Example4cg" name="anhchinh" class="form-control form-control-lg" />
+												<span style="color:red">${eTenAnh}</span>
+											</div>
+										</div>
+									</div>
+									
+
+									<div class="form-outline  mt-4">
+										<div class="row">
+											<div class="col">
+												<label class="form-label" for="form3Example4cg">giá gốc</label>
+												<input type="text" id="form3Example4cg" name="giagoc"
+													class="form-control form-control-lg" />
+												<span style="color:red">${eGia}</span><br>
+											</div>
+											
+											<div class="col">
+												<label class="form-label" for="form3Example4cg">số lượng</label>
+												<input type="text" id="form3Example4cg" name="soluong"
+													 class="form-control form-control-lg" />
+												<span style="color:red">${eSoLuong}</span>
+											</div>
+											
+											
+										</div>
+										
+										
+									</div>
 
 									<div class="form-outline">
-										<input type="text" id="form3Example1cg" name="tensanpham"
-											required="required" class="form-control form-control-lg" />
-										<label class="form-label" for="form3Example1cg">tên
-											sản phẩm</label>
+										<div class="row">
+											<div class="col">
+												<label class="form-label" for="form3Example4cg">khuyến mãi (%)</label>
+												<input type="number" id="form3Example4cg" name="khuyenmai"
+												class="form-control form-control-lg" value="0"/> 
+												<span style="color:red">${ekhuyenMai}</span>
+											</div>
+											
+										</div>
+										
+									</div>
+									<div class="form-outline  mt-4">
+										<label class="form-label" for="form3Example4cg">loại sản phẩm</label>
+										<select class="form-select" aria-label="Default select example" name="id_loaisp">
+											<c:if test="${listLSP != null}">
+												<option >--</option>
+												<c:forEach items="${listLSP}" var="loaiSP">
+													<option >${loaiSP.tenLoaiSanPham}</option>
+												</c:forEach>
+											</c:if>
+										</select> 
+										<span style="color:red">${eloaiSp}</span>
 									</div>
 
-									<div class="form-outline">
-										<input type="text" id="form3Example3cg" name="mota"
-											class="form-control form-control-lg" /> <label
-											class="form-label" for="form3Example3cg">mô tả</label>
+									<div class="form-outline  mt-4">
+										<label class="form-label" for="form3Example4cg">Nhà Cung Cấp </label>
+										<select class="form-select" aria-label="Default select example" name="id_nhaCungCap">
+											<c:if test="${listNCC != null}">
+												<option >--</option>
+												<c:forEach items="${listNCC}" var="NhaCungCap">
+													<option>${NhaCungCap.tenNhaCungCap}</option>
+												</c:forEach>
+											</c:if>
+										</select> 
+										<span style="color:red">${eNhaCC}</span>
 									</div>
+											
+									<div class="form-outline  mt-4">
+										<label class="form-label" for="form3Example3cg">mô tả</label>
+										<textarea id="content" name="mota" class="form-control form-control-lg"></textarea>
+									    <span style="color:red">${eMoTa}</span>
+									</div>
+	
 
-									<div class="form-outline">
-										<input type="number" id="form3Example4cg" name="giagoc"
-											required="required" class="form-control form-control-lg" />
-										<label class="form-label" for="form3Example4cg">giá
-											gốc</label>
-									</div>
 
-									<div class="form-outline">
-										<input type="number" id="form3Example4cg" name="khuyenmai"
-											class="form-control form-control-lg" /> <label
-											class="form-label" for="form3Example4cg">khuyến mãi</label>
-									</div>
-
-									<div class="form-outline">
-										<input type="text" id="form3Example4cg" name="anhchinh"
-											required="required" class="form-control form-control-lg" />
-										<label class="form-label" for="form3Example4cg">tên
-											ảnh</label>
-									</div>
-									<div class="form-outline">
-										<input type="number" id="form3Example4cg" name="soluong"
-											required="required" class="form-control form-control-lg" />
-										<label class="form-label" for="form3Example4cg">số
-											lượng</label>
-									</div>
-									<div class="form-outline">
-										<select class="form-select"
-											aria-label="Default select example" name="id_loaisp">
-											<option selected value="1">amo</option>
-											<option value="2">bolon</option>
-											<option value="3">gucci</option>
-											<option value="4">molsion</option>
-										</select> <label class="form-label" for="form3Example4cg">loại
-											sản phẩm</label>
-									</div>
-
-									<div class="d-flex justify-content-center">
+									<div class="d-flex  mt-5">
 										<button type="submit"
-											class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">save</button>
+											class="btn btn-lg btn-success px-5 font-bold">save</button>
 									</div>
 								</form>
 
@@ -111,8 +145,7 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+	<!-- 	</div> -->
 	<script src="/assets/js/bootstrap.bundle.min.js"></script>
 	<script src="/assets/js/tiny-slider.js"></script>
 	<script src="/assets/js/custom.js"></script>

@@ -1,5 +1,5 @@
-<%@page import="model.Category"%>
-<%@page import="model.Products"%>
+<%@page import="model.LoaiSanPham"%>
+<%@page import="model.SanPham"%>
 <%@page import="java.util.List"%>
 <%@ page import="java.text.DecimalFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -39,12 +39,13 @@
 	        </div>
 	
 	        <div class="col-sm-9">
-	        
-				<form action="search" method="get">
+	        	
+				
+				<form class="" action="search" method="get">
 					<div class="input-group">
 					  <input type="search" class="form-control rounded " name  ="search" placeholder="search" aria-label="Search" aria-describedby="search-addon" />
 					  <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
-					</div>
+					</div> 
 				</form>
 				
 	            <div class="row">

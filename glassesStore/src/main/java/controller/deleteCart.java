@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Products;
-import model.ProductsDetail;
-import model.Users;
-import repository.ProductDetailBO;
-import repository.ProductsBO;
+import model.GioHang_SanPham;
+import model.SanPham;
+import model.SanPham;
+import model.TaiKhoan;
+import repository.GioHang_SanPhamBO;
+import repository.SanPhamBO;
 
 /**
  * Servlet implementation class updateCart
@@ -39,13 +40,14 @@ public class deleteCart extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
-		Users user = (Users) request.getSession().getAttribute("user");
+		TaiKhoan user = (TaiKhoan) request.getSession().getAttribute("user");
 		int id = Integer.parseInt(request.getParameter("id"));
 		if (user != null) {
-			ProductDetailBO prdBO = new ProductDetailBO();
-			ProductsDetail prDetail = new ProductsDetail( id,user.getId(), 1);
-			prdBO.deleteDetailProduct(prDetail);
-			ArrayList<Products> listPr = prdBO.getProductDetailByIdUser(user.getId());
+			GioHang_SanPhamBO prdBO = new GioHang_SanPhamBO();
+			GioHang_SanPham prDetail = new GioHang_SanPham( id, user.getId(), 0, 0);
+			
+			prdBO.deleteSanPhamTrongGioHang(prDetail);
+			ArrayList<SanPham> listPr = prdBO.getSanPhamTrongGioHang(user.getId());
 			request.setAttribute("listCart", listPr);
 		}
 	

@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.ProductsDAO;
-import dao.UsersDAO;
-import model.Products;
-import model.Users;
+import dao.SanPhamDAO;
+import dao.TaiKhoanDAO;
+import model.SanPham;
+import model.TaiKhoan;
+import repository.TaiKhoanBO;
 
 /**
  * Servlet implementation class AdminUser
@@ -37,10 +38,10 @@ public class AdminUser extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		UsersDAO prd = new UsersDAO();
-		Users user = (Users)request.getSession().getAttribute("admin");
+		TaiKhoanBO prd = new TaiKhoanBO();
+		TaiKhoan user = (TaiKhoan)request.getSession().getAttribute("admin");
 		if (user != null) {
-			ArrayList<Users> listUser = prd.getListUsers();
+			ArrayList<TaiKhoan> listUser = prd.getListUsers();
 			request.setAttribute("listUser", listUser);
 			
 		}

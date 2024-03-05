@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.Products"%>
+<%@page import="model.SanPham"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,7 +49,6 @@ body {
 		<a href="/glassesStore/cart"><i class="fa fa-arrow-left"
 			aria-hidden="true"></i></a>
 		<div class="row mt-5">
-			
 				<!-- Left -->
 				<div class="col-lg-9">
 					<div class="accordion" id="accordionPayment">
@@ -66,32 +65,53 @@ body {
 							<div id="collapseCC" class="accordion-collapse collapse show"
 								data-bs-parent="#accordionPayment" style="">
 								<div class="accordion-body">
-
+									<div class="mb-3">
+										<label class="form-label">Họ tên</label> <input type="text"
+											class="form-control" value="${tenTaiKhoan}" placeholder="họ tên" name="hoTen">
+										<span style="color:red">${errorHoTen}</span>
+									</div>
 									<div class="row">
 										<div class="col-lg-6">
 											<div class="mb-3">
 												<label class="form-label">địa chỉ</label> <input type="text"
-													class="form-control" placeholder="address" name="diachi"
-													required="required">
+													class="form-control" value="${diaChi}" placeholder="address" name="diaChi">
+												<span style="color:red">${errorDiaChi}</span>
 											</div>
 										</div>
 										<div class="col-lg-6">
 											<div class="mb-3">
 												<label class="form-label">số điện thoại</label> <input
-													type="text" class="form-control" placeholder="number phone" name="sdt"
-													required="required">
+													type="text" value="${soDienThoai}" class="form-control" placeholder="number phone" name="soDienThoai">
+												<span style="color:red">${errorPhone}</span>
 											</div>
 										</div>
-										<div class="mb-3">
-											<label class="form-label">ghi chú</label> <input type="text"
-												class="form-control" placeholder="note" name="ghichu">
-										</div>
+									</div>
+									
+									<div class="mb-3">
+											<label class="form-label" for="form3Example4cg">Phương thức thanh toán</label>
+											<select class="form-select" aria-label="Default select example" name="phuongThucThanhToan">
+													<option selected="selected">--</option>
+													<option >Thanh toán khi nhận hàng</option>
+													<option >Thẻ tín dụng/Ghi nợ</option>
+											</select> 
+											<span style="color:red">${errorPTTT}</span>
+									</div>
+									<div class="mb-3">
+										<label class="form-label">ghi chú</label> <input type="text"
+											class="form-control" placeholder="note" name="ghichu">
+										<span style="color:red">${errorGhiChu}</span>
+									</div>
+									<div class="mb-3">
+										<input type="hidden" class="form-control" value="${id_voucher}" name="id_voucher">
+									</div>
+									<div class="mb-3">
+										<input type="hidden" class="form-control" value="${tong}" name="tong">
 									</div>
 								</div>
 							</div>
 						</div>
 						<!-- PayPal -->
-						<div class="accordion-item mb-3 border">
+						<!-- <div class="accordion-item mb-3 border">
 							<h2 class="h5 px-4 py-3 accordion-header d-flex justify-content-between align-items-center">
 								<div>
 									<input class="form-check-input" type="radio" name="payment"
@@ -99,7 +119,7 @@ body {
 										for="payment2"> PayPal </label>
 								</div>
 							</h2>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<!-- Right -->
@@ -109,26 +129,18 @@ body {
 
 							<h6 class="card-title mb-3">Order Summary</h6>
 							<div class="d-flex justify-content-between mb-1 small">
-								<span>Subtotal</span> <span>$${tong}</span>
+								<span>Subtotal</span> $${tong}</span>
 							</div>
 
 							<hr>
 							<div class="d-flex justify-content-between mb-4 small">
 								<span>TOTAL</span> <strong class="text-dark">$${tong}</strong>
 							</div>
-							<div class="form-check mb-1 small">
-								<input class="form-check-input" type="checkbox" value=""
-									required="required" id="tnc"> <label
-									class="form-check-label" for="tnc"> I agree to the <a
-									href="#">terms and conditions</a>
-								</label>
-							</div>
+			
 							<div class="form-check mb-3 small">
-								<input class="form-check-input" type="checkbox" value=""
-									required="required" id="subscribe"> <label
-									class="form-check-label" for="subscribe"> Get emails
-									about product updates and events. If you change your mind, you
-									can unsubscribe at any time. <a href="#">Privacy Policy</a>
+								 <label
+									class="form-check-label" for="subscribe"> Nhận email về các cập nhật sản phẩm và sự kiện. 
+									<a href="#">Chính sách bảo mật</a>
 								</label>
 							</div>
 								

@@ -38,18 +38,11 @@ width:80%;
 		                    <i class="fa-solid fa-user-tie me-3 fa-fw"></i>
 		                    <div class="form-outline flex-fill mb-0">
 		                    	
-		                      <input type="text" id="form3Example1c" class="form-control" name="user-name" required="required" value="${userName}"/>
+		                      <input type="text" id="form3Example1c" class="form-control" name="tenTaiKhoan" required="required" value="${tenTaiKhoan}"/>
 		                      <label class="form-label" for="form3Example1c">User Name</label>
 		                    </div>
 		                  </div>
 		                  
-						<div class="d-flex flex-row align-items-center">
-		                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-		                    <div class="form-outline flex-fill mb-0">
-		                      <input type="text" id="form3Example1c" class="form-control" name="tenHienThi" required="required" value="${fullName}"/>
-		                      <label class="form-label" for="form3Example1c">Your Name</label>
-		                    </div>
-		                  </div>
 		                  
 		                  <p class="text-danger">${messEmail}</p>
 		                  <div class="d-flex flex-row align-items-center ">

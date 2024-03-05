@@ -89,7 +89,7 @@ background-color
 								</c:when>
 								<c:otherwise>
 									<li><a class="dropdown-item"><c:out
-												value="${sessionScope.admin.tenHienThi}" /></a></li>
+												value="${sessionScope.admin.tenTaiKhoan}" /></a></li>
 									<li><a class="dropdown-item" href="logout">Đăng Xuất </a></li>
 								</c:otherwise>
 							</c:choose>

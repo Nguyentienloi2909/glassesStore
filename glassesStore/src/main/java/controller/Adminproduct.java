@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.ProductsDAO;
-import model.Products;
-import model.Users;
+import dao.SanPhamDAO;
+import model.SanPham;
+import model.TaiKhoan;
 
 /**
  * Servlet implementation class productAdmin
@@ -36,10 +36,10 @@ public class Adminproduct extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		ProductsDAO prd = new ProductsDAO();
-		Users user = (Users)request.getSession().getAttribute("admin");
+		SanPhamDAO prd = new SanPhamDAO();
+		TaiKhoan user = (TaiKhoan)request.getSession().getAttribute("admin");
 		if (user != null) {
-			ArrayList<Products> listProducts = prd.getListProducts();
+			ArrayList<SanPham> listProducts = prd.getListProducts();
 			request.setAttribute("listProducts", listProducts);
 			
 		}

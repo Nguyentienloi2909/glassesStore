@@ -7,35 +7,40 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-import model.Products;
+import model.SanPham;
+import repository.KhuyenMaiBO;
 
 /**
  * @author MyPC
  *
  */
 
-public class ProductsDAO {
+public class SanPhamDAO {
+	KhuyenMaiBO kmBO = new KhuyenMaiBO();
+	
 	// hàm get hiển thị ra sản phẩm giao diện Trang chủ và Quản lý
-	public ArrayList<Products> getListProducts() {
+	public ArrayList<SanPham> getListProducts() {
 		DBConnect cs = new DBConnect();
-		ArrayList<Products> lst = new ArrayList<Products>();
+		ArrayList<SanPham> lst = new ArrayList<SanPham>();
 		try {
 			cs.KetNoi();
-			String sql = " SELECT * FROM web.sanpham";
+			String sql = " SELECT sanpham.id, sanpham.tensanpham, sanpham.mota,"
+					+ "sanpham.giagoc, sanpham.anhchinh, sanpham.soLuong, sanpham.id_loaisp,"
+					+ "khuyenmai.muckhuyenmai, sanpham.id_nhacungcap FROM web.sanpham join khuyenmai on sanpham.id_khuyenmai = khuyenmai.id_khuyenmai";
 			PreparedStatement cmd = cs.cn.prepareStatement(sql);
 			ResultSet rs = cmd.executeQuery();
 			while (rs.next()) {
 				// tạo 1 đối tượng gán giá trị
-				Products products = new Products();
+				SanPham products = new SanPham();
 				products.setId(rs.getLong("id"));
-				products.setAnhChinh(rs.getString("anhchinh"));
-				products.setGiaGoc(rs.getDouble("giagoc"));
-				products.setId_loaiSanPham(rs.getLong("id_loaisp"));
-				products.setKhuyenMai(rs.getInt("khuyenmai"));
-				products.setMoTa(rs.getString("mota"));
 				products.setTenSanPham(rs.getString("tensanpham"));
-				products.setTinhTrang(rs.getInt("tinhtrang"));
+				products.setMoTa(rs.getString("mota"));
+				products.setGiaGoc(rs.getDouble("giagoc"));
+				products.setAnhChinh(rs.getString("anhchinh"));
 				products.setSoLuong(rs.getInt("soLuong"));
+				products.setId_loaiSanPham(rs.getLong("id_loaisp"));
+				products.setKhuyenMai(rs.getInt("muckhuyenmai"));
+				products.setId_nhaCungCap(rs.getLong("id_nhacungcap"));
 				// Thêm vào danh sách
 				lst.add(products);
 			}
@@ -53,9 +58,9 @@ public class ProductsDAO {
 
 	// get top 8 sản phẩm ra Trang chủ
 	// hàm get hiển thị ra sản phẩm giao diện Trang chủ và Quản lý
-	public ArrayList<Products> getListProductsTop8() {
+	public ArrayList<SanPham> getListProductsTop8() {
 		DBConnect cs = new DBConnect();
-		ArrayList<Products> lst = new ArrayList<Products>();
+		ArrayList<SanPham> lst = new ArrayList<SanPham>();
 		try {
 			cs.KetNoi();
 			String sql = " SELECT * FROM web.sanpham\n"
@@ -64,16 +69,16 @@ public class ProductsDAO {
 			ResultSet rs = cmd.executeQuery();
 			while (rs.next()) {
 				// tạo 1 đối tượng gán giá trị
-				Products products = new Products();
+				SanPham products = new SanPham();
 				products.setId(rs.getLong("id"));
-				products.setAnhChinh(rs.getString("anhchinh"));
-				products.setGiaGoc(rs.getDouble("giagoc"));
-				products.setId_loaiSanPham(rs.getLong("id_loaisp"));
-				products.setKhuyenMai(rs.getInt("khuyenmai"));
-				products.setMoTa(rs.getString("mota"));
 				products.setTenSanPham(rs.getString("tensanpham"));
-				products.setTinhTrang(rs.getInt("tinhtrang"));
+				products.setMoTa(rs.getString("mota"));
+				products.setGiaGoc(rs.getDouble("giagoc"));
+				products.setAnhChinh(rs.getString("anhchinh"));
 				products.setSoLuong(rs.getInt("soLuong"));
+				products.setId_loaiSanPham(rs.getLong("id_loaisp"));
+				products.setKhuyenMai(kmBO.getMucKhuyenMaiByIdKhuyenMai(rs.getInt("id_khuyenmai")));
+				products.setId_nhaCungCap(rs.getLong("id_nhacungcap"));
 				// Thêm vào danh sách
 				lst.add(products);
 
@@ -89,9 +94,9 @@ public class ProductsDAO {
 	}
 
 	// hàm get hiển thị ra sản phẩm theo loại sản phẩm giao diện Trang chủ
-	public ArrayList<Products> getProductsByCategory(String maLoai) {
+	public ArrayList<SanPham> getProductsByCategory(String maLoai) {
 		DBConnect cs = new DBConnect();
-		ArrayList<Products> lst = new ArrayList<Products>();
+		ArrayList<SanPham> lst = new ArrayList<SanPham>();
 		try {
 			cs.KetNoi();
 			String sql = " SELECT * FROM web.SANPHAM WHERE id_loaisp=?";
@@ -100,16 +105,16 @@ public class ProductsDAO {
 			ResultSet rs = cmd.executeQuery();
 			while (rs.next()) {
 				// tạo 1 đối tượng gán giá trị
-				Products products = new Products();
+				SanPham products = new SanPham();
 				products.setId(rs.getLong("id"));
-				products.setAnhChinh(rs.getString("anhchinh"));
-				products.setGiaGoc(rs.getDouble("giagoc"));
-				products.setId_loaiSanPham(rs.getLong("id_loaisp"));
-				products.setKhuyenMai(rs.getInt("khuyenmai"));
-				products.setMoTa(rs.getString("mota"));
 				products.setTenSanPham(rs.getString("tensanpham"));
-				products.setTinhTrang(rs.getInt("tinhtrang"));
+				products.setMoTa(rs.getString("mota"));
+				products.setGiaGoc(rs.getDouble("giagoc"));
+				products.setAnhChinh(rs.getString("anhchinh"));
 				products.setSoLuong(rs.getInt("soLuong"));
+				products.setId_loaiSanPham(rs.getLong("id_loaisp"));
+				products.setKhuyenMai(kmBO.getMucKhuyenMaiByIdKhuyenMai(rs.getInt("id_khuyenmai")));
+				products.setId_nhaCungCap(rs.getLong("id_nhacungcap"));
 				// Thêm vào danh sách
 				lst.add(products);
 
@@ -124,10 +129,9 @@ public class ProductsDAO {
 		return lst;
 	}
 
-	// hàm get hiển thị ra sản phẩm khi nhập Tìm kiếm giao diện Trang chủ
-	public ArrayList<Products> getProductsByName(String name) {
+	public ArrayList<SanPham> getProductsByName(String name) {
 		DBConnect cs = new DBConnect();
-		ArrayList<Products> lst = new ArrayList<Products>();
+		ArrayList<SanPham> lst = new ArrayList<SanPham>();
 		try {
 			cs.KetNoi();
 			String sql = " SELECT * FROM web.SANPHAM WHERE TENSANPHAM LIKE '%"+name+"%' ";
@@ -137,16 +141,16 @@ public class ProductsDAO {
 			ResultSet rs = cmd.executeQuery();
 			while (rs.next()) {
 				// tạo 1 đối tượng gán giá trị
-				Products products = new Products();
+				SanPham products = new SanPham();
 				products.setId(rs.getLong("id"));
-				products.setAnhChinh(rs.getString("anhchinh"));
-				products.setGiaGoc(rs.getDouble("giagoc"));
-				products.setId_loaiSanPham(rs.getLong("id_loaisp"));
-				products.setKhuyenMai(rs.getInt("khuyenmai"));
-				products.setMoTa(rs.getString("mota"));
 				products.setTenSanPham(rs.getString("tensanpham"));
-				products.setTinhTrang(rs.getInt("tinhtrang"));
+				products.setMoTa(rs.getString("mota"));
+				products.setGiaGoc(rs.getDouble("giagoc"));
+				products.setAnhChinh(rs.getString("anhchinh"));
 				products.setSoLuong(rs.getInt("soLuong"));
+				products.setId_loaiSanPham(rs.getLong("id_loaisp"));
+				products.setKhuyenMai(kmBO.getMucKhuyenMaiByIdKhuyenMai(rs.getInt("id_khuyenmai")));
+				products.setId_nhaCungCap(rs.getLong("id_nhacungcap"));
 				// Thêm vào danh sách
 				lst.add(products);
 
@@ -162,9 +166,9 @@ public class ProductsDAO {
 	}
 
 	// hàm get hiển thị ra sản phẩm theo mã id- giao diện Trang chủ / giỏ hàng
-	public Products getProductsByID(long idSanPham) {
+	public SanPham getProductsByID(long idSanPham) {
 		DBConnect cs = new DBConnect();
-		Products lst = new Products();
+		SanPham lst = new SanPham();
 		try {
 			cs.KetNoi();
 			String sql = " SELECT * FROM web.SANPHAM WHERE id=?";
@@ -173,17 +177,16 @@ public class ProductsDAO {
 			ResultSet rs = cmd.executeQuery();
 			while (rs.next()) {
 				long id = rs.getLong("id");
-				long id_loaiSanPham = rs.getLong("id_loaisp");
 				String tenSanPham = rs.getString("tensanpham");
 				String moTa = rs.getString("mota");
+				double giaGoc = rs.getDouble("giagoc");
 				String anhChinh = rs.getString("anhchinh");
-				int giaGoc = rs.getInt("giagoc");
-				int khuyenMai = rs.getInt("khuyenmai");
-				int tinhTrang = rs.getInt("tinhtrang");
 				int soLuong = rs.getInt("soLuong");
-				// Thêm vào danh sách
-				lst = new Products(id, id_loaiSanPham, tenSanPham, moTa, anhChinh, giaGoc, khuyenMai,
-						tinhTrang, soLuong);
+				long id_loaiSanPham = rs.getLong("id_loaisp");		
+				long id_nhaCungCap = rs.getLong("id_nhacungcap");
+				int khuyenMai = kmBO.getMucKhuyenMaiByIdKhuyenMai(rs.getInt("id_khuyenmai"));
+				// Thêm vào danh sách				
+				lst = new SanPham(id, tenSanPham, moTa, giaGoc, anhChinh, soLuong, id_loaiSanPham, id_nhaCungCap, khuyenMai);
 			}
 			// đống kết nối
 			rs.close();
@@ -197,70 +200,38 @@ public class ProductsDAO {
 	}
 	
 	
-	public Products findProduct(long idSanPham) {
-		DBConnect cs = new DBConnect();
-		Products lst = new Products();
-		try {
-			cs.KetNoi();
-			String sql = " SELECT * FROM web.SANPHAM WHERE id=?";
-			PreparedStatement cmd = cs.cn.prepareStatement(sql);
-			cmd.setLong(1, idSanPham);
-			ResultSet rs = cmd.executeQuery();
-			while (rs.next()) {
-				long id = rs.getLong("id");
-				long id_loaiSanPham = rs.getLong("id_loaisp");
-				String tenSanPham = rs.getString("tensanpham");
-				String moTa = rs.getString("mota");
-				String anhChinh = rs.getString("anhchinh");
-				int giaGoc = rs.getInt("giagoc");
-				int khuyenMai = rs.getInt("khuyenmai");
-				int tinhTrang = rs.getInt("tinhtrang");
-				int soLuong = rs.getInt("soLuong");
-				// Thêm vào danh sách
-				lst = new Products(id, id_loaiSanPham, tenSanPham, moTa, anhChinh, giaGoc, khuyenMai, 
-						tinhTrang, soLuong);
-			}
-			// đống kết nối
-			rs.close();
-			cs.cn.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		// System.out.println(lst.getId()+"kkkk");
-		return lst;
-	}
-	
-
-	
-
-
-
 	/* Phần quản lý admin */
 	// thêm sản phẩm
 
 	
-	public boolean addProduct(Products pr) {
+	public boolean addProduct(SanPham pr) {
 		DBConnect cs = new DBConnect();
+		
         try {
-			cs.KetNoi();
-            String sql = "INSERT INTO web.sanpham (tensanpham, mota, giagoc, khuyenmai, anhchinh, tinhtrang, soLuong, id_loaisp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			try {
+				cs.KetNoi();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            String sql = "INSERT INTO web.sanpham (tensanpham, mota, giagoc, anhchinh, soluong, id_loaisp, id_nhacungcap, id_khuyenmai) "
+            		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             
             try (PreparedStatement preparedStatement = cs.cn.prepareStatement(sql)) {
                 preparedStatement.setString(1, pr.getTenSanPham());
                 preparedStatement.setString(2, pr.getMoTa());
                 preparedStatement.setDouble(3, pr.getGiaGoc());
-                preparedStatement.setDouble(4, pr.getKhuyenMai());
-                preparedStatement.setString(5, pr.getAnhChinh());
-                preparedStatement.setInt(6, pr.getTinhTrang());
-                preparedStatement.setLong(7, pr.getSoLuong());
-                preparedStatement.setLong(8, pr.getId_loaiSanPham());
+                preparedStatement.setString(4, pr.getAnhChinh());
+                preparedStatement.setLong(5, pr.getSoLuong());
+                preparedStatement.setLong(6, pr.getId_loaiSanPham());
+                preparedStatement.setLong(7, pr.getId_nhaCungCap());
+                preparedStatement.setLong(8, pr.getKhuyenMai());
 
                 int rowsAffected = preparedStatement.executeUpdate();
 
                 return rowsAffected > 0;
             }
-        } catch (Exception e) {
+        } catch (SQLException  e) {
             e.printStackTrace();
         }
         return false;
@@ -269,21 +240,22 @@ public class ProductsDAO {
 	
 
 	// sửa sản phẩm
-	public boolean editProduct(Products pr) {
+	public boolean editProduct(SanPham pr) {
 		DBConnect cs = new DBConnect();	
 		try {
             cs.KetNoi();
-            String sql = "UPDATE web.sanpham SET tensanpham = ?, mota = ?, giagoc = ?, khuyenmai = ?, anhchinh = ?, tinhtrang = ?, soLuong = ?, id_loaisp = ? WHERE id = ?";
+            String sql = "UPDATE web.sanpham SET tensanpham = ?, mota = ?, giagoc = ?, anhchinh = ?, soLuong = ?,"
+            		+ " id_loaisp = ?, id_nhacungcap = ?, id_khuyenmai = ? WHERE id = ?";
             
             try (PreparedStatement cmd = cs.cn.prepareStatement(sql)) {
                 cmd.setString(1, pr.getTenSanPham());
                 cmd.setString(2, pr.getMoTa());
                 cmd.setDouble(3, pr.getGiaGoc());
-                cmd.setDouble(4, pr.getKhuyenMai());
-                cmd.setString(5, pr.getAnhChinh());
-                cmd.setInt(6, pr.getTinhTrang());
-                cmd.setLong(7, pr.getSoLuong());
-                cmd.setLong(8, pr.getId_loaiSanPham());
+                cmd.setString(4, pr.getAnhChinh());
+                cmd.setLong(5, pr.getSoLuong());
+                cmd.setLong(6, pr.getId_loaiSanPham());
+                cmd.setLong(7, pr.getId_nhaCungCap());
+                cmd.setLong(8,kmBO.getIdKhuyenMaiByMucKhuyenMai(pr.getKhuyenMai()));
                 cmd.setLong(9, pr.getId());
 
                 int rowsAffected = cmd.executeUpdate();
@@ -296,15 +268,13 @@ public class ProductsDAO {
         return false;
     }
 	
-	public static void main(String[] args) throws Exception {
-		ProductsDAO  listPr =  new ProductsDAO();
-		Products pr = new Products(124 ,2, "dfdfloi","dfdfloi" , "dfdfloi", 90000, 2,  1, 32);
-		boolean pr1 = listPr.editProduct(pr);
-
-		System.out.println( pr1);
-	
-		
-	}
+//	public static void main(String[] args) throws Exception {
+//		SanPhamDAO  listPr =  new SanPhamDAO();
+//		SanPham pr = new SanPham("kinh ap trong", "ap trong cua loi", 345000, "aptrong.png", 45, 1, 2, 3);
+//		
+//		listPr.addProduct(pr);
+//		
+//	}
 
 
 	// get 1 sản phẩm theo id
@@ -324,6 +294,7 @@ public class ProductsDAO {
 		}
 		return false;
 	}
+	
 
 	/* Phân trang sản phẩm ở trang product.jsp */
 	
