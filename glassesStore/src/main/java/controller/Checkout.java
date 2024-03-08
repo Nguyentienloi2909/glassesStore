@@ -113,7 +113,8 @@ public class Checkout extends HttpServlet {
         Matcher matcherDiaChi = patternDiaChi.matcher(diachi);
         if(diachi.equals("")) {
         	errorDiaChi = "Địa chỉ không được để trống";
-		}else if (matcherDiaChi.matches()) {
+		}
+        else if (matcherDiaChi.matches()) {
 			errorDiaChi = "Địa chỉ không hợp lệ (bao gồm số nhà đường và địa chỉ)";
 		}
         
@@ -124,7 +125,8 @@ public class Checkout extends HttpServlet {
         Matcher matcherPhone = patternPhone.matcher(sodienthoai);
         if(sodienthoai.equals("")) {
         	errorPhone = "vui lòng nhập số điện thoại";
-		}else if(!matcherPhone.matches()) {
+		}
+        else if(!matcherPhone.matches()) {
 			errorPhone = "Không đúng định dạng số điện thoại";
 		}
         
