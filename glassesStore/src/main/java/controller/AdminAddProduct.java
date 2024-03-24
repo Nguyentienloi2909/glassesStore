@@ -204,7 +204,8 @@ public class AdminAddProduct extends HttpServlet {
 				kmBO.addKhuyenMai(km);
 				khuyenMai = kmBO.getIdKhuyenMaiByMucKhuyenMai(Integer.parseInt(khuyenmai));
 			}
-			SanPham pr = new SanPham(tenSp, mota, Double.parseDouble(giaGoc) ,fileName,Integer.parseInt(soLuong), loaiSp1 ,id_nhaCungCap1, khuyenMai);
+			SanPham pr = new SanPham(tenSp, mota, Double.parseDouble(giaGoc) ,fileName,Integer.parseInt(soLuong), 
+					loaiSp1 ,id_nhaCungCap1, khuyenMai);
 			prdBO.addProducts(pr); 
 			url = "./admin/viewsAdmin/managerProducts.jsp";
 		}
