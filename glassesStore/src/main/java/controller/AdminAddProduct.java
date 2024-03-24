@@ -1,15 +1,25 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
 
 import model.KhuyenMai;
 import model.LoaiSanPham;
@@ -24,6 +34,7 @@ import repository.SanPhamBO;
 /**
  * Servlet implementation class AdminAddProduct
  */
+@MultipartConfig
 @WebServlet("/AdminAddProduct")
 public class AdminAddProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -68,7 +79,6 @@ public class AdminAddProduct extends HttpServlet {
 		String mota = request.getParameter("mota");
 		String giaGoc = request.getParameter("giagoc");
 		String khuyenmai = request.getParameter("khuyenmai");
-		String tenanh = request.getParameter("anhchinh");
 		String soLuong = request.getParameter("soluong");
 		String loaiSp = request.getParameter("id_loaisp");
 		String id_nhaCungCap = request.getParameter("id_nhaCungCap");
@@ -78,7 +88,7 @@ public class AdminAddProduct extends HttpServlet {
 		
 		// kiểm tra khuyến mãi
 		String ekhuyenMai = "";
-		if (!	khuyenmai.matches("-?\\d+(\\.\\d+)?")) {
+		if (!khuyenmai.matches("^[0-9]\\d*$")) {
 			ekhuyenMai = "khuyến mãi của sản phẩm không hợp lệ";
 		}else if(Integer.parseInt(khuyenmai) < 0 ||Integer.parseInt(khuyenmai) > 100 ) {
 			ekhuyenMai = "khuyến mãi sản phẩm không được quá 0-100%";
@@ -144,20 +154,32 @@ public class AdminAddProduct extends HttpServlet {
 		}
 		
 		
-		// kiểm tra  tên ảnh
+		// kiểm tra file ảnh
 		String eTenAnh = "";
-		String imageFilenameRegex = "^[a-zA-Z0-9_-]+\\.(jpg|jpeg|png|gif|bmp)$";
-		if (tenanh.equals("")) {
-			eTenAnh = "Tên ảnh không được bỏ trống";
-		}else if(!tenanh.matches(imageFilenameRegex)) {
-			eTenAnh = "Định dạng ảnh không được hỗ trợ";
-		}
 		
+		Part filePart = request.getPart("file");
+	    String fileName = filePart.getSubmittedFileName();
+	    
+	    if (fileName.length() > 0) {
+	    	if (filePart.getSize() <= 5 * 1024 * 1024) {
+		    	for (Part part : request.getParts()) {
+		    		if(part == filePart) {
+		    			filePart.write("C:/Users/DELL/git/repository/glassesStore/src/main/webapp/assets/image/" + fileName);
+		    		}
+		    	}
+	    	}else {
+	    		eTenAnh = "Vui lòng upload file ảnh có dung lượng nhỏ hơn 5MB.";
+	    	}
+	    	
+		  
+	    }else {
+	    	eTenAnh = "vui lòng upload file image";
+	    }
 		
 		String url = "";
 
 		if (eTensp.length() > 0 || eGia.length() > 0 || eSoLuong.length() > 0 || eMoTa.length() >0 || 
-				eloaiSp.length() > 0 || eNhaCC.length() > 0 || ekhuyenMai.length() > 0 ){	
+				eloaiSp.length() > 0 || eNhaCC.length() > 0 || ekhuyenMai.length() > 0 || eTenAnh.length() > 0){	
 			request.setAttribute("eTensp", eTensp);
 			request.setAttribute("eGia", eGia);
 			request.setAttribute("eSoLuong", eSoLuong);
@@ -182,8 +204,7 @@ public class AdminAddProduct extends HttpServlet {
 				kmBO.addKhuyenMai(km);
 				khuyenMai = kmBO.getIdKhuyenMaiByMucKhuyenMai(Integer.parseInt(khuyenmai));
 			}
-			SanPham pr = new SanPham(tenSp, mota, Double.parseDouble(giaGoc) ,tenanh, 
-					Integer.parseInt(soLuong), loaiSp1 ,id_nhaCungCap1, khuyenMai);
+			SanPham pr = new SanPham(tenSp, mota, Double.parseDouble(giaGoc) ,fileName,Integer.parseInt(soLuong), loaiSp1 ,id_nhaCungCap1, khuyenMai);
 			prdBO.addProducts(pr); 
 			url = "./admin/viewsAdmin/managerProducts.jsp";
 		}

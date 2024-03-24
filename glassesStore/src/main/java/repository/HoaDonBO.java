@@ -6,7 +6,7 @@ import model.HoaDon;
 public class HoaDonBO {
 	HoaDonDAO s = new HoaDonDAO();
 	
-	public boolean addBill(HoaDon bill) {
+	public long addBill(HoaDon bill) {
 		return s.addBill(bill);
 	}
 }

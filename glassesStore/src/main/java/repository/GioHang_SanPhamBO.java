@@ -13,7 +13,6 @@ public class GioHang_SanPhamBO {
 	GioHangDAO s = new GioHangDAO();
 
 
-	// hàm get hiển thị ra toàn bộ chi tiết sản phẩm giao diện quản lý
 	public ArrayList<SanPham> getSanPhamTrongGioHang(long id) {
 
 		return s.getSanPhamTrongGioHang(id);

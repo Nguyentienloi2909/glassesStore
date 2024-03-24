@@ -151,11 +151,14 @@ public class GioHangDAO {
 		DBConnect cs = new DBConnect();
 		try {
 			cs.KetNoi();
-			String sql = "UPDATE web.giohang_sanpham SET soluong = ? WHERE id_sanpham = ? and id_giohang = ?";
+			String sql = "UPDATE web.giohang_sanpham \n"
+					+ "SET soluong = ? "
+					+ "WHERE id_sanpham = ? \n"
+					+ "AND id_giohang IN (SELECT id_giohang FROM web.giohang WHERE id_taikhoan = ?)";
 			try (PreparedStatement cmd = cs.cn.prepareStatement(sql)) {
 	            cmd.setLong(1, pd.getSoLuong());
 	            cmd.setLong(2, pd.getId_SanPham());
-	            cmd.setLong(3, getIdGioHangByIdTaiKhoan(pd.getId_taikhoan()));
+	            cmd.setLong(3, pd.getId_taikhoan());
 				int rowsAffected = cmd.executeUpdate();
 	            
 	            if (rowsAffected > 0) {

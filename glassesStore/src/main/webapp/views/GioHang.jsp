@@ -265,10 +265,11 @@
 				<thead>
 					<tr>
 						<th>Sản Phẩm</th>
+						<th class="text-center">Số lượng tồn kho</th>
 						<th class="text-center">Giảm Giá</th>
 						<th class="text-center">Giá Tiền</th>
 						<th class="text-center">Số Lượng</th>
-						<th class="text-center">update/delete</th>
+						<th class="text-center">delete</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -290,35 +291,53 @@
 										</div>
 									</div>
 								</td>
+								<td class="text-center text-lg text-medium">
+								<c:forEach items ="${listPr}" var="product1">
+									<c:if test="${product1.id == product.id}">
+										${product1.soLuong}
+									</c:if>
+								</c:forEach>
+									
+								</td>
 								<td class="text-center text-lg text-medium">${product.giaGoc* product.khuyenMai/100}$</td>
 								<td class="text-center text-lg text-medium">${product.giaGoc}$</td>
 							
 								
 								<td class="text-center">
-									
-										<div class="count-input col-md-2">
-												<input type= "hidden" name="id_product" value="${product.id}">
-												<input class="form-control" type="number" name="quantity" value="${product.soLuong}" min=0>
-										</div>
+									<div class="row">
+										<form action="/glassesStore/deleteOrUpdateCart" method="get">
+											<div class="count-input col-md-5">
+														<input type= "hidden" name="request" value="update">
+														<input type= "hidden" name="id_product" value="${product.id}">
+														<input class="form-control" type="number" name="quantity" value="${product.soLuong}" min=0>
+											
+											</div>
+											<div class="count-input col-md-2">
+												<button type="submit" style="border: none; background: none">
+													    <img src="./assets/icon/update.jpg" width="20" height="20" >
+												</button>
+											</div>
+										</form>
+									</div>
+										
 								</td>
 								<td class="text-center">
 									
 										 
-										<a type="button" href="deleteCart?id=${product.id}" >
+										
+										<a type="button" href="deleteOrUpdateCart?id_product=${product.id}&request=delete" >
 											    <img src="./assets/icon/delete.png" width="20" height="20" >
 										</a>
+										
 								</td>
 								
 							</tr>
 						
 					</c:forEach>
-					
-					
 					</c:if>
-					
-		
 				</tbody>
 			</table>
+			<p class="text-danger">${eSoLuong}</p>
 		</div>
 		<div class="shopping-cart-footer">
 			<div class="column">

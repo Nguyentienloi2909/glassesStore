@@ -46,7 +46,7 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
 									class="fa fa-arrow-left" aria-hidden="true"></i></a>
 								<h2 class="text-uppercase mb-4 mt-4">Thông Tin Sản Phẩm</h2>
 
-								<form action="/glassesStore/AdminAddProduct" method="post">
+								<form action="/glassesStore/AdminAddProduct" method="post" enctype="multipart/form-data"> 
 									<div class="form-outline">
 										<div class="row">
 											<div class="col">
@@ -59,7 +59,7 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
 											
 											<div class="col">
 												<label class="form-label" for="form3Example4cg">Ảnh minh họa</label>
-												<input type="text" id="form3Example4cg" name="anhchinh" class="form-control form-control-lg" />
+												<input type="file" id="form3Example4cg" name="file"  class="form-control form-control-lg" />
 												<span style="color:red">${eTenAnh}</span>
 											</div>
 										</div>

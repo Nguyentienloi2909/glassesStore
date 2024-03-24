@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,13 +11,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.ChiTietHoaDon;
 import model.DonDatHang;
 import model.GioHang_SanPham;
 import model.HoaDon;
+import model.SanPham;
 import model.TaiKhoan;
+import repository.ChiTietHoaDonBO;
 import repository.DonDatHangBO;
 import repository.GioHang_SanPhamBO;
 import repository.HoaDonBO;
+import repository.SanPhamBO;
 import repository.TaiKhoanBO;
 
 /**
@@ -133,7 +138,29 @@ public class Checkout extends HttpServlet {
         
         String url;
 		TaiKhoan user = (TaiKhoan) request.getSession().getAttribute("user");
-        if ((errorHoTen.length() > 0 || errorDiaChi.length()>0 || errorPhone.length() > 0
+		
+		GioHang_SanPhamBO ghSpBO = new GioHang_SanPhamBO();
+		SanPhamBO spBO = new SanPhamBO();
+		ArrayList<SanPham> listSp = spBO.getListProducts();
+		ArrayList<SanPham> listCart = ghSpBO.getSanPhamTrongGioHang(user.getId());
+		
+		// kiểm tra số lương sản phẩm có trong giỏ hàng và số lượng tồn kho
+		String soLuongKhongDu = "";
+		for (SanPham sp : listSp) {
+			for (SanPham spCart : listCart) {
+				if( sp.getId() == spCart.getId() && spCart.getSoLuong() > sp.getSoLuong()) {
+					soLuongKhongDu = "số lượng sản phẩm " + spCart.getTenSanPham()+ " không đủ";
+					
+				}
+			}
+		}
+		
+		if (soLuongKhongDu.length() > 0 && user != null) { 
+			url = "./views/GioHang.jsp";
+			request.setAttribute("eSoLuong", soLuongKhongDu);
+			request.setAttribute("listCart", listCart);
+			request.setAttribute("listPr", listSp);
+		}else if ((errorHoTen.length() > 0 || errorDiaChi.length()>0 || errorPhone.length() > 0
         		|| errorGhiChu.length()>0 || errorPTTT.length() >0) && user !=null) {
         	request.setAttribute("errorHoTen", errorHoTen);
         	request.setAttribute("errorGhiChu", errorGhiChu);
@@ -142,7 +169,7 @@ public class Checkout extends HttpServlet {
         	request.setAttribute("errorPTTT", errorPTTT);
         	request.setAttribute("diaChi", diachi);
 			request.setAttribute("soDienThoai", sodienthoai);
-			request.setAttribute("hoTen", hoTen);
+			request.setAttribute("tenTaiKhoan", user.getTenTaiKhoan());
 			request.setAttribute("tong", tongTien);
 			request.setAttribute("id_voucher", id_voucher);
         	url = "./views/CheckOut.jsp";
@@ -170,10 +197,18 @@ public class Checkout extends HttpServlet {
         	// thêm hóa đơn
 			HoaDonBO billBO = new HoaDonBO();
 			HoaDon bill = new HoaDon(tongTien,id_donDatHang, phuongTTT);
-			billBO.addBill(bill);
+			long idBill =  billBO.addBill(bill);
+			
+			
+			// thêm chi tiết hóa đơn
+			ChiTietHoaDonBO cthdBO = new ChiTietHoaDonBO();
+			for(SanPham sp : listCart) {
+				ChiTietHoaDon cthd = new ChiTietHoaDon(idBill,sp.getId(), sp.getSoLuong());
+				cthdBO.addChiTietHoaDon(cthd);
+			}
+			
 			
 			// xóa giỏ hàng đã thanh toán
-			GioHang_SanPhamBO ghSpBO = new GioHang_SanPhamBO();
 			GioHang_SanPham gioHang_SanPham = new GioHang_SanPham(user.getId());
 			ghSpBO.deleteGioHangSanPham(gioHang_SanPham);
 			url = "./home";

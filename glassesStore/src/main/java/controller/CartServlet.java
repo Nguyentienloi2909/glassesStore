@@ -40,10 +40,15 @@ public class CartServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		GioHang_SanPhamBO prd = new GioHang_SanPhamBO();
+		SanPhamBO spBO= new SanPhamBO();
+		String eSoLuong = request.getParameter("soLuongKhongDu");
 		TaiKhoan user = (TaiKhoan)request.getSession().getAttribute("user");
 		if(user !=null) {
-			ArrayList<SanPham> listPr = prd.getSanPhamTrongGioHang(user.getId());
-			request.setAttribute("listCart", listPr);
+			ArrayList<SanPham> listPr = spBO.getListProducts();
+			ArrayList<SanPham> listCart = prd.getSanPhamTrongGioHang(user.getId());
+			request.setAttribute("eSoLuong", eSoLuong);
+			request.setAttribute("listCart", listCart);
+			request.setAttribute("listPr", listPr);
 		}
 		
 		request.getRequestDispatcher("./views/GioHang.jsp").forward(request, response);
